@@ -1,0 +1,21 @@
+{
+  "name": "vision-auto-blogger-pro",
+  "type": "module",
+  "version": "1.1.0",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "openai": "^4.56.1",
+    "marked": "^12.0.2",
+    "node-fetch": "^3.3.2",
+    "zod": "^3.23.8",
+    "jsdom": "^24.0.0",
+    "dotenv": "^16.4.5"
+  }
+}

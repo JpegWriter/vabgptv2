@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: visionautoblogger-pro
+    env: node
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "node src/server.js"
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SERPER_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: PORT
+        value: "8080"

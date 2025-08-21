@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Vision Auto Blogger — Pro+</title>
+    <style>
+      :root{
+        --bg:#0b0f19; --card:#12182a; --muted:#9aa4b2; --txt:#e6ecf1; --primary:#7c5cff; --accent:#22c55e; --warn:#f59e0b;
+      }
+      *{box-sizing:border-box}
+      body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(135deg,#0b0f19 0%,#0e1326 40%,#0a0f1a 100%);color:var(--txt);margin:0;padding:0}
+      header{display:flex;align-items:center;justify-content:space-between;padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.05);backdrop-filter:blur(6px);position:sticky;top:0;z-index:10;background:rgba(11,15,25,.6)}
+      h1{font-size:20px;margin:0}
+      .wrap{max-width:1200px;margin:0 auto;padding:24px}
+      .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+      .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+      label{display:block;margin:.6rem 0 .35rem;color:var(--muted);font-size:12px;letter-spacing:.3px;text-transform:uppercase}
+      input,textarea{width:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.08);background:#0f1424;color:var(--txt);border-radius:12px;font-size:14px;outline:none}
+      textarea{min-height:100px}
+      .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      .actions{display:flex;gap:10px;align-items:center;margin-top:10px}
+      button{padding:10px 14px;border:0;border-radius:12px;background:var(--primary);color:#fff;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(124,92,255,.35);transition:.2s}
+      button.secondary{background:#1f2937;color:#e5e7eb;box-shadow:none;border:1px solid rgba(255,255,255,.06)}
+      button:disabled{opacity:.6;cursor:not-allowed}
+      .status{color:var(--muted);font-size:13px}
+      .flex{display:flex;gap:12px;align-items:center}
+      .switch{display:flex;gap:10px;align-items:center}
+      .switch input{width:auto}
+      .trace{display:grid;gap:8px}
+      .tick{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#0f1628;border:1px solid rgba(255,255,255,.06)}
+      .tick.ok .icon{color:var(--accent)}
+      .tick.warn .icon{color:var(--warn)}
+      .icon{font-size:16px;line-height:0}
+      pre{white-space:pre-wrap;background:#0f1424;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;max-height:420px;overflow:auto}
+      iframe{width:100%;height:540px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:#fff}
+      .badges{display:flex;gap:8px;flex-wrap:wrap}
+      .badge{background:#0f1628;border:1px solid rgba(255,255,255,.08);color:#a7f3d0;border-radius:999px;padding:6px 10px;font-size:12px}
+      a.link{color:#a5b4fc;text-decoration:none}
+    </style>
+  </head>
+  <body>
+    <header class="wrap" style="padding:16px 24px;">
+      <h1>Vision Auto Blogger — <span style="color:#a5b4fc">Pro+</span></h1>
+      <div class="badges">
+        <span class="badge">Outline → Draft</span>
+        <span class="badge">Critic + Repair</span>
+        <span class="badge">Vision</span>
+        <span class="badge">Crawler</span>
+        <span class="badge">SERP</span>
+        <span class="badge">Schema</span>
+      </div>
+    </header>
+    <div class="wrap grid">
+      <div class="card">
+        <div class="row">
+          <div>
+            <label>Brand</label>
+            <input id="brand" placeholder="Your Studio"/>
+          </div>
+          <div>
+            <label>Primary Keyphrase</label>
+            <input id="keyphrase" placeholder="Family Photographer [Your City]"/>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label>City</label>
+            <input id="city" placeholder="Vienna"/>
+          </div>
+          <div>
+            <label>Locale</label>
+            <input id="locale" placeholder="en-US"/>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label>Site Base URL</label>
+            <input id="base" placeholder="https://example.com"/>
+          </div>
+          <div>
+            <label>Website URL (optional, to mine)</label>
+            <input id="url" placeholder="https://example.com/about"/>
+          </div>
+        </div>
+        <div>
+          <label>Services (comma-separated)</label>
+          <input id="services" placeholder="Family Photography, Newborn Photography, Maternity Photography"/>
+        </div>
+        <div class="row">
+          <div>
+            <label>Internal Links JSON</label>
+            <textarea id="internals">[{"anchor":"Family Photography","url":"https://example.com/family"}]</textarea>
+          </div>
+          <div>
+            <label>Proofs JSON (optional)</label>
+            <textarea id="proofs">{"rnOnSet":true,"years":12,"rating":4.9}</textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card" style="background:#0f1628;">
+            <div class="switch"><input type="checkbox" id="enableSERP"/><label>Enable SERP Research</label></div>
+            <input id="serpQuery" placeholder="SERP query (defaults to keyphrase + city)"/>
+            <div class="switch"><input type="checkbox" id="enableCluster"/><label>Enable Keyword Clustering</label></div>
+            <div class="switch"><input type="checkbox" id="enableCrawl"/><label>Enable Site Crawl</label></div>
+            <div class="row">
+              <div><input id="crawlMax" placeholder="max pages (e.g., 6)"/></div>
+              <div><input id="crawlPaths" placeholder="allow paths (e.g., /services,/about)"/></div>
+            </div>
+          </div>
+          <div class="card" style="background:#0f1628;">
+            <div class="switch"><input type="checkbox" id="enableSocial"/><label>Enable Social Hints</label></div>
+            <input id="socialUrls" placeholder="https://instagram.com/yourstudio, https://facebook.com/yourstudio"/>
+            <div class="switch"><input type="checkbox" id="enableVision"/><label>Enable Vision (Image URLs)</label></div>
+            <textarea id="images" placeholder="https://cdn.site.com/photo1.jpg&#10;https://cdn.site.com/photo2.jpg"></textarea>
+            <div class="switch"><input type="checkbox" id="enableReviews"/><label>Enable Reviews</label></div>
+            <textarea id="reviews" placeholder='[{"rating":5,"text":"Amazing experience!"}]'></textarea>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="go">Generate</button>
+          <button id="copyHtml" class="secondary">Copy HTML</button>
+          <button id="copyMd" class="secondary">Copy Markdown</button>
+          <a id="downloadHtml" class="link" download="post.html" href="#">Download HTML</a>
+          <span class="status" id="status">idle</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Context Status</h3>
+        <div id="context-status" class="trace" aria-live="polite"></div>
+        <div style="margin-top:12px">
+          <h3 style="margin:12px 0 6px">Preview</h3>
+          <iframe id="preview"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="card">
+        <h3 style="margin-top:0">Markdown</h3>
+        <pre id="md"></pre>
+      </div>
+    </div>
+    <script>
+      const $ = id => document.getElementById(id);
+      function tickRow(item){
+        const ok = item.status === '✅';
+        const icon = ok ? '✔' : '⚠';
+        const cls = ok ? 'tick ok' : 'tick warn';
+        const note = item.note ? ' — ' + item.note : '';
+        return `<div class="${cls}"><span class="icon">${icon}</span><strong>${item.step}</strong>${note}</div>`;
+      }
+      function collectBody(){
+        const brand = $('brand').value.trim();
+        const primary_keyphrase = $('keyphrase').value.trim();
+        const region = { city: $('city').value.trim(), locale: $('locale').value.trim() };
+        const baseUrl = $('base').value.trim();
+        const url = $('url').value.trim();
+        const services = $('services').value.split(',').map(s=>({name: s.trim()})).filter(s=>s.name);
+        const internal_links = JSON.parse($('internals').value || '[]');
+        const proofs = JSON.parse($('proofs').value || '{}');
+
+        const enableSERP = $('enableSERP').checked;
+        const enableCluster = $('enableCluster').checked;
+        const enableCrawl = $('enableCrawl').checked;
+        const enableSocial = $('enableSocial').checked;
+        const enableVision = $('enableVision').checked;
+        const enableReviews = $('enableReviews').checked;
+
+        const serpQuery = $('serpQuery').value.trim() || `${primary_keyphrase} ${region.city}`;
+        const crawlMax = parseInt($('crawlMax').value || '6', 10);
+        const crawlPaths = $('crawlPaths').value.split(',').map(s=>s.trim()).filter(Boolean);
+        const socialUrls = $('socialUrls').value.split(',').map(s=>s.trim()).filter(Boolean);
+        const images = $('images').value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+        let reviews = [];
+        try { reviews = JSON.parse($('reviews').value || '[]'); } catch {}
+
+        return {
+          brand, primary_keyphrase, region, services, internal_links, aeo:{faqs:4,comparison:true,checklist:true},
+          url, proofs, site:{ baseUrl },
+          research: enableSERP ? { enableSERP:true, query: serpQuery } : undefined,
+          seo: enableCluster ? { cluster: { enable: true } } : undefined,
+          crawl: enableCrawl ? { enable: true, maxPages: crawlMax, allowPaths: crawlPaths } : undefined,
+          social: enableSocial ? { enable: true, urls: socialUrls } : undefined,
+          images: enableVision ? images : undefined,
+          reviews: enableReviews ? { enable:true, list: reviews } : undefined
+        };
+      }
+      async function generate(){
+        $('status').innerText = 'Running…';
+        $('go').disabled = true;
+        $('context-status').innerHTML = '';
+        const body = collectBody();
+        try{
+          const res = await fetch('/api/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+          const data = await res.json();
+          if(!data.ok){ $('status').innerText = 'Error: ' + data.error; $('go').disabled = false; return; }
+          $('status').innerText = 'Done.';
+          $('md').innerText = data.markdown || '';
+          // context ticks
+          const trace = data.contextTrace || [];
+          $('context-status').innerHTML = trace.map(tickRow).join('');
+          // preview + download
+          const doc = `<!doctype html><html><head><meta charset='utf-8'></head><body>` + data.html + `</body></html>`;
+          const blob = new Blob([doc], {type:'text/html'});
+          const u = URL.createObjectURL(blob);
+          $('preview').src = u;
+          $('downloadHtml').href = u;
+          window._latestHtml = data.html;
+          window._latestMd = data.markdown;
+        }catch(e){
+          $('status').innerText = 'Error: ' + e.message;
+        }finally{
+          $('go').disabled = false;
+        }
+      }
+      $('go').addEventListener('click', generate);
+      $('copyHtml').addEventListener('click', async ()=>{
+        if (!window._latestHtml) return;
+        await navigator.clipboard.writeText(window._latestHtml);
+        $('status').innerText = 'HTML copied';
+      });
+      $('copyMd').addEventListener('click', async ()=>{
+        if (!window._latestMd) return;
+        await navigator.clipboard.writeText(window._latestMd);
+        $('status').innerText = 'Markdown copied';
+      });
+    </script>
+  </body>
+</html>
